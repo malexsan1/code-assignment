@@ -1,10 +1,11 @@
 import React from 'react';
 import Head from 'next/head';
 
-import Layout from '../../components/layout';
-import styles from '../../styles/user.module.css';
-import FormInput from '../../components/form-input';
 import { useUserForm } from '../../hooks';
+import Layout from '../../components/layout';
+import FormInput from '../../components/form-input';
+
+import styles from '../../styles/user.module.scss';
 
 interface User {
   id: string;

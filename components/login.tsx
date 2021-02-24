@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 import { useLogin } from '../hooks';
 import FormInput from '../components/form-input';
-import loginStyles from '../styles/login.module.css';
+import loginStyles from '../styles/login.module.scss';
 
 export default function Login() {
   const { handleLogin, register, loginStatus } = useLogin();

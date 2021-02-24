@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
-import styles from '../styles/modal.module.css';
+import styles from '../styles/modal.module.scss';
 
 interface ModalProps {
   isOpen: boolean;

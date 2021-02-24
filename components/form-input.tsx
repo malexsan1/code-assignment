@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '../styles/form-input.module.css';
+import styles from '../styles/form-input.module.scss';
 
 interface FormInputProps extends Partial<HTMLInputElement> {
   id: string;

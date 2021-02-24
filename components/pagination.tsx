@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import styles from '../styles/pagination.module.css';
+import styles from '../styles/pagination.module.scss';
 
 interface PaginationProps {
   page: number;

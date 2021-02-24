@@ -5,10 +5,11 @@ import { useRouter } from 'next/router';
 import { usePostForm } from '../hooks';
 import Modal from '../components/modal';
 import Layout from '../components/layout';
-import styles from '../styles/posts.module.css';
-import Pagination from '../components/pagination';
 import FormInput from '../components/form-input';
-import postStyles from '../styles/post.module.css';
+import Pagination from '../components/pagination';
+
+import styles from '../styles/posts.module.scss';
+import postStyles from '../styles/post.module.scss';
 
 interface IPost {
   id: string;

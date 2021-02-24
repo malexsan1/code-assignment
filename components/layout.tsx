@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import layoutStyles from '../styles/layout.module.css';
+import layoutStyles from '../styles/layout.module.scss';
 
 export default function Layout({ children }) {
   return (

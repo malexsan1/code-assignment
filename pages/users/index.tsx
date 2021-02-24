@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 
 import Layout from '../../components/layout';
 import Pagination from '../../components/pagination';
-import usersStyles from '../../styles/users.module.css';
+import usersStyles from '../../styles/users.module.scss';
 
 interface User {
   id: string;
