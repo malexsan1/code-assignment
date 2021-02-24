@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 import { usePostForm } from '../hooks';
 import Modal from '../components/modal';
 import Layout from '../components/layout';
 import styles from '../styles/posts.module.css';
+import Pagination from '../components/pagination';
 import FormInput from '../components/form-input';
 import postStyles from '../styles/post.module.css';
 
@@ -15,9 +17,13 @@ interface IPost {
   userId: string;
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ query: { page = 1 } }) {
+  console.log('post get server', page);
+
   let totalCount = 0;
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts?_start=0&_limit=10');
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`,
+  );
 
   const posts: IPost[] = await response.json();
 
@@ -45,6 +51,12 @@ export default function Posts({ posts = [], totalCount = 0 }: PostsProps) {
   // I do this because the API is a dummy and editing is faked
   const [_posts, setPosts] = useState<IPost[]>(() => posts);
   const [post, setPost] = useState<IPost>();
+
+  const { query } = useRouter();
+
+  useEffect(() => {
+    setPosts(posts);
+  }, [posts]);
 
   const handleEditPost = useCallback(
     (updatedPost: IPost) => {
@@ -74,6 +86,8 @@ export default function Posts({ posts = [], totalCount = 0 }: PostsProps) {
           </section>
         )}
       </Layout>
+
+      <Pagination path="posts" totalCount={totalCount} page={query.page ? Number(query.page) : 1} />
 
       {post && (
         <EditPostModal post={post} onClose={() => setPost(undefined)} onEdit={handleEditPost} />

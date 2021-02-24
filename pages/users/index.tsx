@@ -1,8 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import Layout from '../../components/layout';
+import Pagination from '../../components/pagination';
 import usersStyles from '../../styles/users.module.css';
 
 interface User {
@@ -13,22 +15,35 @@ interface User {
   email: string;
 }
 
-export async function getServerSideProps() {
-  const request = await fetch('https://jsonplaceholder.typicode.com/users?_start=0&_limit=5');
-  const users: User[] = await request.json();
+export async function getServerSideProps({ query: { page = 1 } }) {
+  let totalCount: number = 0;
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=10`,
+  );
+  const users: User[] = await response.json();
+
+  response.headers.forEach((value, name) => {
+    if (name === 'x-total-count') {
+      totalCount = Number(value);
+    }
+  });
 
   return {
     props: {
       users,
+      totalCount,
     },
   };
 }
 
 interface UsersProps {
   users: User[];
+  totalCount: number;
 }
 
-export default function Users({ users = [] }: UsersProps) {
+export default function Users({ users = [], totalCount }: UsersProps) {
+  const { query } = useRouter();
+
   return (
     <>
       <Head>
@@ -51,6 +66,7 @@ export default function Users({ users = [] }: UsersProps) {
           </section>
         )}
       </Layout>
+      <Pagination path="users" totalCount={totalCount} page={query.page ? Number(query.page) : 1} />
     </>
   );
 }
