@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
@@ -117,11 +117,21 @@ interface EditPostModalProps {
 }
 
 const EditPostModal: React.FC<EditPostModalProps> = ({ onClose, post, onEdit }) => {
+  const ref = useRef(null);
   const { register, handleEdit } = usePostForm(post, onEdit);
+
+  useEffect(() => {
+    if (ref && ref.current) {
+      ref.current.focus();
+    }
+  }, []);
 
   return (
     <Modal isOpen={true} onClose={onClose}>
       <form className={postStyles.root} onSubmit={handleEdit}>
+        <button className={postStyles.close} onClick={onClose} ref={ref}>
+          X
+        </button>
         <section>
           <FormInput id="title" label="Title" ref={register} />
           <FormInput id="body" label="Body" ref={register} />
