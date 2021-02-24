@@ -3,22 +3,8 @@ import Head from 'next/head';
 import Image from 'next/image';
 
 import { useLogin } from '../hooks';
+import FormInput from '../components/form-input';
 import loginStyles from '../styles/login.module.css';
-
-interface FormInputProps extends Partial<HTMLInputElement> {
-  id: string;
-  label: string;
-  ref?: React.Ref<any>;
-}
-
-const FormInput: React.FC<FormInputProps> = React.forwardRef(({ id, label, type }, ref) => {
-  return (
-    <div className={loginStyles.formInput}>
-      <label htmlFor={id}>{label}</label>
-      <input id={id} name={id} ref={ref} type={type} />
-    </div>
-  );
-});
 
 export default function Login() {
   const { handleLogin, register, loginStatus } = useLogin();

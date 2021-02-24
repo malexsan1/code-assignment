@@ -1,0 +1,21 @@
+.form {
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.form section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.form button {
+  align-self: flex-end;
+  height: 36px;
+  width: 80px;
+  text-transform: uppercase;
+}

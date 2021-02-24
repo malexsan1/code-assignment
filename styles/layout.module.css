@@ -1,0 +1,29 @@
+.layout {
+  background-color: #eee;
+  height: 100%;
+}
+
+.layout nav {
+  align-items: center;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 32px;
+}
+
+.links {
+  align-items: center;
+  display: flex;
+}
+
+.links a {
+  margin-right: 20px;
+}
+
+.links a:first-of-type {
+  margin-left: 20px;
+}
+
+.layout main {
+  padding: 16px 32px;
+}

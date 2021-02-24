@@ -1,0 +1,47 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.user {
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.user:hover {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.user div:first-of-type {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user div:first-of-type span:first-of-type {
+  font-weight: 700;
+  color: #333;
+}
+
+.user div:last-of-type {
+  display: flex;
+  margin-top: 4px;
+  font-size: 14px;
+  color: #555;
+}
+
+.user div:last-of-type span:first-of-type {
+  margin-right: 12px;
+  padding-right: 12px;
+  border-right: 1px solid #999;
+}
+
+.userId {
+  color: #555;
+  font-weight: 500;
+}
