@@ -1,0 +1,16 @@
+.root {
+  background-color: #fff;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  width: 400px;
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.root button {
+  align-self: flex-end;
+  height: 36px;
+  width: 80px;
+}

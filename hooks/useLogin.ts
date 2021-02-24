@@ -1,30 +1,22 @@
+import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { useCallback, useState } from 'react';
+
+import { useAsyncRequest } from './useAsyncRequest';
 
 interface LoginFormState {
   username: string;
   password: string;
 }
 
-interface LoginRequest {
-  status: 'success' | 'pending' | 'error';
-  error?: string;
-}
-
-const initialLoginStatus: LoginRequest = { status: 'success', error: '' };
-
 export const useLogin = () => {
-  const [loginStatus, setLoginStatus] = useState<LoginRequest>(initialLoginStatus);
-  const { register, handleSubmit } = useForm<LoginFormState>();
   const { push } = useRouter();
+  const { status, setError, setLoading } = useAsyncRequest();
+  const { register, handleSubmit } = useForm<LoginFormState>();
 
   const handleLogin = useCallback(
     handleSubmit((values) => {
-      setLoginStatus({
-        status: 'pending',
-        error: '',
-      });
+      setLoading();
       fetch('/api/login', {
         method: 'POST',
         body: JSON.stringify(values),
@@ -35,10 +27,7 @@ export const useLogin = () => {
           push('/users');
         })
         .catch((err: Error) => {
-          setLoginStatus({
-            error: err.message,
-            status: 'error',
-          });
+          setError(err.message);
         });
     }),
     [handleSubmit],
@@ -47,6 +36,6 @@ export const useLogin = () => {
   return {
     register,
     handleLogin,
-    loginStatus,
+    loginStatus: status,
   };
 };

@@ -14,7 +14,7 @@ interface User {
 }
 
 export async function getServerSideProps() {
-  const request = await fetch('https://jsonplaceholder.typicode.com/users');
+  const request = await fetch('https://jsonplaceholder.typicode.com/users?_start=0&_limit=5');
   const users: User[] = await request.json();
 
   return {
