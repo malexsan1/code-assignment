@@ -3,10 +3,9 @@ import Head from 'next/head';
 
 import { IUser } from '@core/entities';
 
-import Layout from '@components/layout';
 import { useUserForm } from '@hooks/index';
+import AuthGuard from '@components/auth-guard';
 import FormInput from '@components/form-input';
-import Unauthorized from '@components/unauthorized';
 import { getCookies, verifyToken } from '@lib/utils';
 
 import styles from '../../styles/user.module.scss';
@@ -19,7 +18,7 @@ export async function getServerSideProps({ req, params }) {
     return {
       props: {
         user: null,
-        authenticated: false,
+        isAuthenticated: false,
       },
     };
   }
@@ -30,17 +29,17 @@ export async function getServerSideProps({ req, params }) {
   return {
     props: {
       user,
-      authenticated: false,
+      isAuthenticated: true,
     },
   };
 }
 
 interface UserProps {
   user: IUser;
-  authenticated: boolean;
+  isAuthenticated: boolean;
 }
 
-export default function User({ authenticated, user }: UserProps) {
+export default function User({ isAuthenticated, user }: UserProps) {
   const { register, handleEdit } = useUserForm(user);
 
   return (
@@ -48,25 +47,20 @@ export default function User({ authenticated, user }: UserProps) {
       <Head>
         <title>Edit User</title>
       </Head>
-      <Layout>
-        {authenticated ? (
-          <>
-            <h2>{user.name}</h2>
-            <form className={styles.form} onSubmit={handleEdit}>
-              <section>
-                <FormInput id="name" label="Name" ref={register} />
-                <FormInput id="email" label="Email" ref={register} />
-                <FormInput id="username" label="Username" ref={register} />
-                <FormInput id="phone" label="Phone" ref={register} />
-                <FormInput id="website" label="Website" ref={register} />
-              </section>
-              <button type="submit">Edit</button>
-            </form>
-          </>
-        ) : (
-          <Unauthorized />
-        )}
-      </Layout>
+
+      <AuthGuard isAuthenticated={isAuthenticated}>
+        <h2>{user ? user.name : ''}</h2>
+        <form className={styles.form} onSubmit={handleEdit}>
+          <section>
+            <FormInput id="name" label="Name" ref={register} />
+            <FormInput id="email" label="Email" ref={register} />
+            <FormInput id="username" label="Username" ref={register} />
+            <FormInput id="phone" label="Phone" ref={register} />
+            <FormInput id="website" label="Website" ref={register} />
+          </section>
+          <button type="submit">Edit</button>
+        </form>
+      </AuthGuard>
     </>
   );
 }

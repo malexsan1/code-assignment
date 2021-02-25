@@ -7,6 +7,7 @@ import { IUser } from '@core/entities';
 import { getCookies, verifyToken } from '@lib/utils';
 
 import Layout from '@components/layout';
+import AuthGuard from '@components/auth-guard';
 import Pagination from '@components/pagination';
 import Unauthorized from '@components/unauthorized';
 import usersStyles from '../../styles/users.module.scss';
@@ -20,7 +21,7 @@ export async function getServerSideProps({ query: { page = 1 }, req }) {
       props: {
         users: [],
         totalCount: 0,
-        authenticated: false,
+        isAuthenticated: false,
       },
     };
   }
@@ -41,7 +42,7 @@ export async function getServerSideProps({ query: { page = 1 }, req }) {
     props: {
       users,
       totalCount,
-      authenticated: true,
+      isAuthenticated: true,
     },
   };
 }
@@ -49,10 +50,10 @@ export async function getServerSideProps({ query: { page = 1 }, req }) {
 interface UsersProps {
   users: IUser[];
   totalCount: number;
-  authenticated: boolean;
+  isAuthenticated: boolean;
 }
 
-export default function Users({ authenticated, users = [], totalCount }: UsersProps) {
+export default function Users({ isAuthenticated, users = [], totalCount }: UsersProps) {
   const { query } = useRouter();
 
   return (
@@ -61,35 +62,31 @@ export default function Users({ authenticated, users = [], totalCount }: UsersPr
         <title>Users</title>
       </Head>
 
-      <Layout>
-        {authenticated ? (
-          users.length === 0 ? (
-            'No users found.'
-          ) : (
-            <>
-              <h2>Users</h2>
-              <section className={usersStyles.container}>
-                {users.map((user) => (
-                  <Link key={user.id} href={`/users/${encodeURIComponent(user.id)}`}>
-                    <a>
-                      <UserCard user={user} />
-                    </a>
-                  </Link>
-                ))}
-              </section>
-            </>
-          )
+      <AuthGuard
+        isAuthenticated={isAuthenticated}
+        pagination={
+          <Pagination
+            path="users"
+            totalCount={totalCount}
+            page={query.page ? Number(query.page) : 1}
+          />
+        }
+      >
+        <h2>Users</h2>
+        {users.length === 0 ? (
+          'No users found.'
         ) : (
-          <Unauthorized />
+          <section className={usersStyles.container}>
+            {users.map((user) => (
+              <Link key={user.id} href={`/users/${encodeURIComponent(user.id)}`}>
+                <a>
+                  <UserCard user={user} />
+                </a>
+              </Link>
+            ))}
+          </section>
         )}
-      </Layout>
-      {authenticated && (
-        <Pagination
-          path="users"
-          totalCount={totalCount}
-          page={query.page ? Number(query.page) : 1}
-        />
-      )}
+      </AuthGuard>
     </>
   );
 }

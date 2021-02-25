@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import { AuthPayload } from '@core/entities';
 import { useAsyncRequest } from './useAsyncRequest';
 
-export const useLogin = () => {
+export const useAuth = () => {
   const { push } = useRouter();
   const { status, setError, setLoading } = useAsyncRequest();
   const { register, handleSubmit } = useForm<AuthPayload>();
@@ -30,9 +30,15 @@ export const useLogin = () => {
     [handleSubmit],
   );
 
+  const handleLogout = useCallback(() => {
+    Cookies.remove('token');
+    push('/');
+  }, [push]);
+
   return {
     register,
     handleLogin,
+    handleLogout,
     loginStatus: status,
   };
 };

@@ -2,12 +2,12 @@ import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import { useLogin } from '@hooks/index';
+import { useAuth } from '@hooks/index';
 import FormInput from '@components/form-input';
 import loginStyles from '../styles/login.module.scss';
 
 export default function Login() {
-  const { handleLogin, register, loginStatus } = useLogin();
+  const { handleLogin, register, loginStatus } = useAuth();
 
   return (
     <>

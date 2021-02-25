@@ -3,6 +3,18 @@ import jwt from 'jsonwebtoken';
 import { AuthPayload } from '@core/entities';
 import { NextApiRequest } from 'next';
 
+export const extractTotalCount = (response: Response): number => {
+  let totalCount = 0;
+
+  response.headers.forEach((value, name) => {
+    if (name === 'x-total-count') {
+      totalCount = Number(value);
+    }
+  });
+
+  return totalCount;
+};
+
 export const createJWT = (
   payload: AuthPayload,
   key: string = process.env.JWT_SECRET,
