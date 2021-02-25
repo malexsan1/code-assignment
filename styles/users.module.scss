@@ -38,13 +38,23 @@
     margin-top: 4px;
     font-size: 14px;
     color: #555;
+
+    span:first-of-type {
+      margin-right: 12px;
+      padding-right: 12px;
+      border-right: $default-border;
+
+      @media only screen and (max-width: 1024px) {
+        border: none;
+      }
+    }
+
+    @media only screen and (max-width: 1024px) {
+      flex-direction: column;
+    }
   }
 
-  div:last-of-type span:first-of-type {
-    margin-right: 12px;
-    padding-right: 12px;
-    border-right: $default-border;
-  }
+  // div:last-of-type
 }
 
 .userId {

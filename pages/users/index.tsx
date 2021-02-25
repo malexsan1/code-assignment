@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { IUser } from '@core/entities';
+import { getPaginatedData } from '@lib/getPaginatedData';
 import { getCookies, verifyToken } from '@lib/utils';
 
 import AuthGuard from '@components/auth-guard';
@@ -26,16 +27,10 @@ export async function getServerSideProps({ query: { page = 1 }, req }) {
     };
   }
 
-  let totalCount: number = 0;
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=${USERS_PER_PAGE}`,
-  );
-  const users: IUser[] = await response.json();
-
-  response.headers.forEach((value, name) => {
-    if (name === 'x-total-count') {
-      totalCount = Number(value);
-    }
+  const { data: users, totalCount } = await getPaginatedData<IUser>({
+    page,
+    entity: 'users',
+    limit: USERS_PER_PAGE,
   });
 
   return {

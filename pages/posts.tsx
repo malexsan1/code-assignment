@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 
 import { IPost } from '@core/entities';
 import { usePostForm } from '@hooks/index';
+import { getPaginatedData } from '@lib/getPaginatedData';
 import { getCookies, verifyToken, extractTotalCount } from '@lib/utils';
 
 import Modal from '@components/modal';
@@ -30,16 +31,17 @@ export async function getServerSideProps({ query: { page = 1 }, req }) {
     };
   }
 
-  const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${POSTS_PER_PAGE}`,
-  );
-  const posts: IPost[] = await response.json();
+  const { data: posts, totalCount } = await getPaginatedData<IPost>({
+    page,
+    entity: 'posts',
+    limit: POSTS_PER_PAGE,
+  });
 
   return {
     props: {
       posts,
+      totalCount,
       isAuthenticated: true,
-      totalCount: extractTotalCount(response),
     },
   };
 }
