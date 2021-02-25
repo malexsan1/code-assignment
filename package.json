@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "start:container": "docker run --rm -p 3000:3000 -it $(docker build -q .)"
   },
   "dependencies": {
     "@hookform/resolvers": "1.2.0",
