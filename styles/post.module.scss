@@ -12,11 +12,20 @@
   position: relative;
   width: 480px;
 
-  button:last-of-type {
-    @include buttonPrimer;
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
 
-    align-self: flex-end;
-    margin-top: 8px;
+    button:first-of-type {
+      @include buttonSecondary;
+      margin-right: 16px;
+      width: 80px;
+    }
+
+    button:last-of-type {
+      @include buttonPrimary;
+      width: 80px;
+    }
   }
 }
 

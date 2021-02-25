@@ -157,7 +157,10 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ onClose, post, onEdit }) 
           <FormTextarea id="body" label="Body" ref={register} />
         </section>
 
-        <button type="submit">Edit</button>
+        <div className={postStyles.buttonContainer}>
+          <button onClick={onClose}>Cancel</button>
+          <button type="submit">Edit</button>
+        </div>
       </form>
     </Modal>
   );

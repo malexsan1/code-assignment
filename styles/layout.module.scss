@@ -36,7 +36,7 @@
 }
 
 .logout {
-  @include buttonPrimer;
+  @include buttonPrimary;
 
   background-color: $text-secondary;
   color: $white;

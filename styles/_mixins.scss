@@ -11,7 +11,7 @@
   flex-direction: $direction;
 }
 
-@mixin buttonPrimer {
+@mixin buttonPrimary {
   border: none;
   border-radius: $border-radius;
   background-color: $primary;
@@ -23,4 +23,17 @@
   &:hover {
     background-color: $primary-hover;
   }
+}
+
+@mixin buttonSecondary {
+  @include buttonPrimary;
+
+  &:hover {
+    background-color: $background-color;
+    border-color: $text-primary;
+  }
+
+  background-color: $white;
+  border: $default-border;
+  color: $text-primary;
 }
