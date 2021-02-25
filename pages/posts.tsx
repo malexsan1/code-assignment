@@ -2,25 +2,18 @@ import React, { useRef, useCallback, useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import { usePostForm } from '../hooks';
-import Modal from '../components/modal';
-import Layout from '../components/layout';
-import FormInput from '../components/form-input';
-import Pagination from '../components/pagination';
+import { IPost } from '@core/entities';
+import { usePostForm } from '@hooks/index';
+
+import Modal from '@components/modal';
+import Layout from '@components/layout';
+import FormInput from '@components/form-input';
+import Pagination from '@components/pagination';
 
 import styles from '../styles/posts.module.scss';
 import postStyles from '../styles/post.module.scss';
 
-interface IPost {
-  id: string;
-  title: string;
-  body: string;
-  userId: string;
-}
-
 export async function getServerSideProps({ query: { page = 1 } }) {
-  console.log('post get server', page);
-
   let totalCount = 0;
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`,
@@ -48,16 +41,19 @@ interface PostsProps {
 }
 
 export default function Posts({ posts = [], totalCount = 0 }: PostsProps) {
+  const { query } = useRouter();
+
+  // #region !! REACT ANTI PATTERN WARNING !!
+
   // big anti pattern to duplicate props in state
   // I do this because the API is a dummy and editing is faked
   const [_posts, setPosts] = useState<IPost[]>(() => posts);
   const [post, setPost] = useState<IPost>();
 
-  const { query } = useRouter();
-
   useEffect(() => {
     setPosts(posts);
   }, [posts]);
+  // #endregion
 
   const handleEditPost = useCallback(
     (updatedPost: IPost) => {

@@ -1,20 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { useUserForm } from '../../hooks';
-import Layout from '../../components/layout';
-import FormInput from '../../components/form-input';
+import { IUser } from '@core/entities';
+
+import { useUserForm } from '@hooks/index';
+import Layout from '@components/layout';
+import FormInput from '@components/form-input';
 
 import styles from '../../styles/user.module.scss';
-
-interface User {
-  id: string;
-  name: string;
-  phone: string;
-  username: string;
-  email: string;
-  website: string;
-}
 
 export async function getServerSideProps({ params }) {
   const request = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`);
@@ -28,7 +21,7 @@ export async function getServerSideProps({ params }) {
 }
 
 interface UserProps {
-  user: User;
+  user: IUser;
 }
 
 export default function User({ user }: UserProps) {

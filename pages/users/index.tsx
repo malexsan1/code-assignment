@@ -1,27 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useAuthed } from '../../hooks';
-import Layout from '../../components/layout';
-import Pagination from '../../components/pagination';
-import usersStyles from '../../styles/users.module.scss';
+import { IUser } from '@core/entities';
 
-interface User {
-  id: string;
-  name: string;
-  phone: string;
-  username: string;
-  email: string;
-}
+import Layout from '@components/layout';
+import Pagination from '@components/pagination';
+import usersStyles from '../../styles/users.module.scss';
 
 export async function getServerSideProps({ query: { page = 1 } }) {
   let totalCount: number = 0;
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=10`,
   );
-  const users: User[] = await response.json();
+  const users: IUser[] = await response.json();
 
   response.headers.forEach((value, name) => {
     if (name === 'x-total-count') {
@@ -38,7 +31,7 @@ export async function getServerSideProps({ query: { page = 1 } }) {
 }
 
 interface UsersProps {
-  users: User[];
+  users: IUser[];
   totalCount: number;
 }
 
@@ -73,7 +66,7 @@ export default function Users({ users = [], totalCount }: UsersProps) {
 }
 
 interface UserCardProps {
-  user: User;
+  user: IUser;
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user }) => {

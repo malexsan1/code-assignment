@@ -2,18 +2,11 @@ import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 
-interface User {
-  id: string;
-  name: string;
-  phone: string;
-  username: string;
-  email: string;
-  website: string;
-}
+import { IUser } from '@core/entities';
 
-export const useUserForm = (user: User) => {
+export const useUserForm = (user: IUser) => {
   const { push } = useRouter();
-  const { register, handleSubmit } = useForm<User>({
+  const { register, handleSubmit } = useForm<IUser>({
     defaultValues: user,
   });
 

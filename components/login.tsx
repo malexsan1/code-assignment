@@ -2,8 +2,8 @@ import React from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 
-import { useLogin } from '../hooks';
-import FormInput from '../components/form-input';
+import { useLogin } from '@hooks/index';
+import FormInput from '@components/form-input';
 import loginStyles from '../styles/login.module.scss';
 
 export default function Login() {
