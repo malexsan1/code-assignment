@@ -56,3 +56,9 @@ export const getCookies = (req: NextApiRequest): Record<string, string> => {
     };
   }, {});
 };
+
+export const getSession = (req: NextApiRequest) => {
+  const { token = '' } = getCookies(req);
+
+  return verifyToken(token);
+};

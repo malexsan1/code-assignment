@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { IUser } from '@core/entities';
+import { getSession } from '@lib/utils';
 import { getPaginatedData } from '@lib/getPaginatedData';
-import { getCookies, verifyToken } from '@lib/utils';
 
 import AuthGuard from '@components/auth-guard';
 import Pagination from '@components/pagination';
@@ -14,8 +14,7 @@ import usersStyles from '../../styles/users.module.scss';
 const USERS_PER_PAGE = 3;
 
 export async function getServerSideProps({ query: { page = 1 }, req }) {
-  const { token = '' } = getCookies(req);
-  const session = verifyToken(token);
+  const session = getSession(req);
 
   if (!session) {
     return {

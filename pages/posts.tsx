@@ -3,8 +3,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import { IPost } from '@core/entities';
+import { getSession } from '@lib/utils';
 import { usePostForm } from '@hooks/index';
-import { getCookies, verifyToken } from '@lib/utils';
 import { getPaginatedData } from '@lib/getPaginatedData';
 
 import Modal from '@components/modal';
@@ -19,8 +19,7 @@ import postStyles from '../styles/post.module.scss';
 const POSTS_PER_PAGE = 8;
 
 export async function getServerSideProps({ query: { page = 1 }, req }) {
-  const { token = '' } = getCookies(req);
-  const session = verifyToken(token);
+  const session = getSession(req);
 
   if (!session) {
     return {
