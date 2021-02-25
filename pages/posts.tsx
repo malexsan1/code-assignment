@@ -4,13 +4,14 @@ import { useRouter } from 'next/router';
 
 import { IPost } from '@core/entities';
 import { usePostForm } from '@hooks/index';
+import { getCookies, verifyToken } from '@lib/utils';
 import { getPaginatedData } from '@lib/getPaginatedData';
-import { getCookies, verifyToken, extractTotalCount } from '@lib/utils';
 
 import Modal from '@components/modal';
 import FormInput from '@components/form-input';
 import AuthGuard from '@components/auth-guard';
 import Pagination from '@components/pagination';
+import FormTextarea from '@components/form-textarea';
 
 import styles from '../styles/posts.module.scss';
 import postStyles from '../styles/post.module.scss';
@@ -153,7 +154,7 @@ const EditPostModal: React.FC<EditPostModalProps> = ({ onClose, post, onEdit }) 
         </button>
         <section>
           <FormInput id="title" label="Title" ref={register} />
-          <FormInput id="body" label="Body" ref={register} />
+          <FormTextarea id="body" label="Body" ref={register} />
         </section>
 
         <button type="submit">Edit</button>
