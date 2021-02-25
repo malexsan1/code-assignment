@@ -1,0 +1,14 @@
+@import '_globals';
+@import '_mixins';
+
+.unauthorized {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 12px;
+
+  button {
+    @include buttonPrimer;
+    margin-top: 12px;
+  }
+}

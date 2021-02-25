@@ -1,10 +1,11 @@
-import { NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-function generateRandomToken() {
-  // poor man's JWT
-  return Math.random().toString(16).substr(2, 14);
-}
+import { createJWT } from '../../lib/utils';
 
-export default function handler(_, res: NextApiResponse) {
-  res.status(200).json({ token: generateRandomToken() });
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { username, password } = JSON.parse(req.body);
+
+  const token = await createJWT({ username, password });
+
+  res.status(200).json({ token });
 }

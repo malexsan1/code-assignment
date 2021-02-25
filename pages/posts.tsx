@@ -4,16 +4,31 @@ import { useRouter } from 'next/router';
 
 import { IPost } from '@core/entities';
 import { usePostForm } from '@hooks/index';
+import { getCookies, verifyToken } from '@lib/utils';
 
 import Modal from '@components/modal';
 import Layout from '@components/layout';
 import FormInput from '@components/form-input';
 import Pagination from '@components/pagination';
+import Unauthorized from '@components/unauthorized';
 
 import styles from '../styles/posts.module.scss';
 import postStyles from '../styles/post.module.scss';
 
-export async function getServerSideProps({ query: { page = 1 } }) {
+export async function getServerSideProps({ query: { page = 1 }, req }) {
+  const { token = '' } = getCookies(req);
+  const session = verifyToken(token);
+
+  if (!session) {
+    return {
+      props: {
+        posts: [],
+        totalCount: 0,
+        authenticated: false,
+      },
+    };
+  }
+
   let totalCount = 0;
   const response = await fetch(
     `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`,
@@ -31,6 +46,7 @@ export async function getServerSideProps({ query: { page = 1 } }) {
     props: {
       posts,
       totalCount,
+      authenticated: true,
     },
   };
 }
@@ -38,9 +54,10 @@ export async function getServerSideProps({ query: { page = 1 } }) {
 interface PostsProps {
   posts: IPost[];
   totalCount: number;
+  authenticated: boolean;
 }
 
-export default function Posts({ posts = [], totalCount = 0 }: PostsProps) {
+export default function Posts({ authenticated, posts = [], totalCount = 0 }: PostsProps) {
   const { query } = useRouter();
 
   // #region !! REACT ANTI PATTERN WARNING !!
@@ -65,6 +82,9 @@ export default function Posts({ posts = [], totalCount = 0 }: PostsProps) {
     [post, setPosts],
   );
 
+  if (!authenticated) {
+  }
+
   return (
     <>
       <Head>
@@ -72,22 +92,36 @@ export default function Posts({ posts = [], totalCount = 0 }: PostsProps) {
       </Head>
 
       <Layout>
-        <h2>Posts</h2>
-        {_posts.length === 0 ? (
-          'No posts found.'
+        {authenticated ? (
+          _posts.length === 0 ? (
+            'No posts found.'
+          ) : (
+            <>
+              <h2>Posts</h2>
+              <section className={styles.container}>
+                {_posts.map((post) => (
+                  <Post key={post.id} post={post} onClick={() => setPost(post)} />
+                ))}
+              </section>
+            </>
+          )
         ) : (
-          <section className={styles.container}>
-            {_posts.map((post) => (
-              <Post key={post.id} post={post} onClick={() => setPost(post)} />
-            ))}
-          </section>
+          <Unauthorized />
         )}
       </Layout>
 
-      <Pagination path="posts" totalCount={totalCount} page={query.page ? Number(query.page) : 1} />
+      {authenticated && (
+        <>
+          <Pagination
+            path="posts"
+            totalCount={totalCount}
+            page={query.page ? Number(query.page) : 1}
+          />
 
-      {post && (
-        <EditPostModal post={post} onClose={() => setPost(undefined)} onEdit={handleEditPost} />
+          {post && (
+            <EditPostModal post={post} onClose={() => setPost(undefined)} onEdit={handleEditPost} />
+          )}
+        </>
       )}
     </>
   );
