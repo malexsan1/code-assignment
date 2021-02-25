@@ -1,15 +1,25 @@
 import { useCallback } from 'react';
+import { object, string } from 'yup';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import Cookies from 'js-cookie';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { AuthPayload } from '@core/entities';
 import { useAsyncRequest } from './useAsyncRequest';
 
+const requiredMessage = 'This field is required.';
+const schema = object().shape({
+  username: string().required(requiredMessage),
+  password: string().required(requiredMessage),
+});
+
 export const useAuth = () => {
   const { push } = useRouter();
   const { status, setError, setLoading } = useAsyncRequest();
-  const { register, handleSubmit } = useForm<AuthPayload>();
+  const { register, handleSubmit, errors } = useForm<AuthPayload>({
+    resolver: yupResolver(schema),
+  });
 
   const handleLogin = useCallback(
     handleSubmit((values) => {
@@ -36,6 +46,7 @@ export const useAuth = () => {
   }, [push]);
 
   return {
+    errors,
     register,
     handleLogin,
     handleLogout,

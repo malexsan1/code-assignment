@@ -6,11 +6,11 @@ import { useRouter } from 'next/router';
 import { IUser } from '@core/entities';
 import { getCookies, verifyToken } from '@lib/utils';
 
-import Layout from '@components/layout';
 import AuthGuard from '@components/auth-guard';
 import Pagination from '@components/pagination';
-import Unauthorized from '@components/unauthorized';
 import usersStyles from '../../styles/users.module.scss';
+
+const USERS_PER_PAGE = 3;
 
 export async function getServerSideProps({ query: { page = 1 }, req }) {
   const { token = '' } = getCookies(req);
@@ -28,7 +28,7 @@ export async function getServerSideProps({ query: { page = 1 }, req }) {
 
   let totalCount: number = 0;
   const response = await fetch(
-    `https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=10`,
+    `https://jsonplaceholder.typicode.com/users?_page=${page}&_limit=${USERS_PER_PAGE}`,
   );
   const users: IUser[] = await response.json();
 
@@ -68,6 +68,7 @@ export default function Users({ isAuthenticated, users = [], totalCount }: Users
           <Pagination
             path="users"
             totalCount={totalCount}
+            itemsPerPage={USERS_PER_PAGE}
             page={query.page ? Number(query.page) : 1}
           />
         }

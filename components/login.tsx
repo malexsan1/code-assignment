@@ -7,7 +7,7 @@ import FormInput from '@components/form-input';
 import loginStyles from '../styles/login.module.scss';
 
 export default function Login() {
-  const { handleLogin, register, loginStatus } = useAuth();
+  const { handleLogin, register, loginStatus, errors } = useAuth();
 
   return (
     <>
@@ -18,8 +18,19 @@ export default function Login() {
       <form className={loginStyles.form} onSubmit={handleLogin}>
         <Image src="/images/logo.gif" width={50} height={50} alt="Logo" />
 
-        <FormInput id="username" label="Username" ref={register} />
-        <FormInput id="password" label="Password" type="password" ref={register} />
+        <FormInput
+          id="username"
+          label="Username"
+          ref={register}
+          error={errors['username']?.message}
+        />
+        <FormInput
+          id="password"
+          label="Password"
+          type="password"
+          ref={register}
+          error={errors['password']?.message}
+        />
 
         <button type="submit" disabled={loginStatus.status === 'pending'}>
           {loginStatus.status === 'pending' ? 'Loading...' : 'Log in'}

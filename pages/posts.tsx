@@ -14,6 +14,8 @@ import Pagination from '@components/pagination';
 import styles from '../styles/posts.module.scss';
 import postStyles from '../styles/post.module.scss';
 
+const POSTS_PER_PAGE = 8;
+
 export async function getServerSideProps({ query: { page = 1 }, req }) {
   const { token = '' } = getCookies(req);
   const session = verifyToken(token);
@@ -29,7 +31,7 @@ export async function getServerSideProps({ query: { page = 1 }, req }) {
   }
 
   const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`,
+    `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${POSTS_PER_PAGE}`,
   );
   const posts: IPost[] = await response.json();
 
@@ -77,6 +79,9 @@ export default function Posts({ isAuthenticated, posts = [], totalCount = 0 }: P
     <>
       <Head>
         <title>Posts</title>
+        <meta name="author" content="Alex M." />
+        <meta property="og:description" content="Code assignment posts" />
+        {/* Other meta tags for SEO should be here. */}
       </Head>
 
       <AuthGuard
@@ -85,6 +90,7 @@ export default function Posts({ isAuthenticated, posts = [], totalCount = 0 }: P
           <Pagination
             path="posts"
             totalCount={totalCount}
+            itemsPerPage={POSTS_PER_PAGE}
             page={query.page ? Number(query.page) : 1}
           />
         }

@@ -5,7 +5,7 @@
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
 
   label {
     color: $text-secondary;
@@ -22,6 +22,10 @@
     height: $field-height;
     padding: 0 8px;
 
+    :required {
+      background-color: salmon;
+    }
+
     &:hover {
       border-color: $primary-hover;
     }
@@ -31,5 +35,11 @@
       border-color: $primary;
       outline: none;
     }
+  }
+
+  span {
+    color: $error;
+    height: 16px;
+    font-size: $font-size-s;
   }
 }

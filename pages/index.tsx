@@ -9,6 +9,7 @@ export default function Home() {
       <Head>
         <title>Log in</title>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="author" content="Alex M." />
       </Head>
 
       <Login />

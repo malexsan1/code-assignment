@@ -37,7 +37,7 @@ export default function Pagination({
     <footer className={styles.paginationRoot}>
       <Link href={`/${path}`}>
         <a>
-          <button>|&lt;</button>
+          <button disabled={page === 1}>|&lt;</button>
         </a>
       </Link>
       {pageRange.map((pageNumber) => {
@@ -56,7 +56,7 @@ export default function Pagination({
       })}
       <Link href={`/${path}?page=${totalPages}`}>
         <a>
-          <button>&gt;|</button>
+          <button disabled={page === totalPages}>&gt;|</button>
         </a>
       </Link>
     </footer>

@@ -42,3 +42,8 @@
     background-color: $text-primary;
   }
 }
+
+.activeLink {
+  color: $primary;
+  font-weight: $font-weight-bold;
+}
