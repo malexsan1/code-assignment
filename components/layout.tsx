@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import layoutStyles from '../styles/layout.module.scss';
 
 export default function Layout({ children }) {
+  const { push } = useRouter();
+
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem('token');
+    push('/');
+  }, [push]);
+
   return (
     <div className={layoutStyles.layout}>
       <nav>
@@ -19,7 +27,9 @@ export default function Layout({ children }) {
           </Link>
         </div>
 
-        <span>Logout</span>
+        <button className={layoutStyles.logout} onClick={handleLogout}>
+          Logout
+        </button>
       </nav>
 
       <main>{children}</main>

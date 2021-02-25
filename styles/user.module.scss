@@ -1,21 +1,33 @@
+@import '_globals';
+@import '_mixins';
+
 .form {
-  border: 1px solid #333;
-  border-radius: 4px;
-  background-color: #fff;
+  border: $default-border;
+  border-radius: $border-radius;
+  background-color: $white;
   display: flex;
   flex-direction: column;
   padding: 12px;
-}
+  margin-top: 12px;
 
-.form section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
+  section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
 
-.form button {
-  align-self: flex-end;
-  height: 36px;
-  width: 80px;
-  text-transform: uppercase;
+    @media only screen and (min-width: 320px) and (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+
+    @media only screen and (min-width: 480px) and (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  button {
+    @include buttonPrimer;
+
+    align-self: flex-end;
+    margin-top: 8px;
+  }
 }

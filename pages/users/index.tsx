@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { useAuthed } from '../../hooks';
 import Layout from '../../components/layout';
 import Pagination from '../../components/pagination';
 import usersStyles from '../../styles/users.module.scss';

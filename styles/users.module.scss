@@ -1,44 +1,50 @@
+@import '_globals';
+
 .container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-top: 12px;
+
+  @media only screen and (min-width: 320px) and (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .user {
-  border: 1px solid #333;
-  border-radius: 4px;
-  background-color: #fff;
+  border: $default-border;
+  border-radius: $border-radius;
+  background-color: $white;
   display: flex;
   flex-direction: column;
   padding: 12px;
-}
 
-.user:hover {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-}
+  &:hover {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  }
 
-.user div:first-of-type {
-  display: flex;
-  justify-content: space-between;
-}
+  div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.user div:first-of-type span:first-of-type {
-  font-weight: 700;
-  color: #333;
-}
+  div:first-of-type span:first-of-type {
+    color: $text-primary;
+    font-weight: $font-weight-bolder;
+  }
 
-.user div:last-of-type {
-  display: flex;
-  margin-top: 4px;
-  font-size: 14px;
-  color: #555;
-}
+  & div:last-of-type {
+    display: flex;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #555;
+  }
 
-.user div:last-of-type span:first-of-type {
-  margin-right: 12px;
-  padding-right: 12px;
-  border-right: 1px solid #999;
+  div:last-of-type span:first-of-type {
+    margin-right: 12px;
+    padding-right: 12px;
+    border-right: $default-border;
+  }
 }
 
 .userId {

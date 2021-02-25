@@ -1,30 +1,44 @@
-.layout {
-  background-color: #eee;
-  height: 100%;
-}
+@import '_globals';
+@import '_mixins';
 
-.layout nav {
-  align-items: center;
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 32px;
-  height: 64px;
+.layout {
+  background-color: $background-color;
+  height: 100%;
+
+  nav {
+    align-items: center;
+    background-color: $white;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 32px;
+    height: 64px;
+  }
+
+  main {
+    padding: 16px 32px 48px 32px;
+  }
 }
 
 .links {
   align-items: center;
   display: flex;
+
+  a {
+    margin-right: 20px;
+
+    &:first-of-type {
+      margin-left: 20px;
+    }
+  }
 }
 
-.links a {
-  margin-right: 20px;
-}
+.logout {
+  @include buttonPrimer;
 
-.links a:first-of-type {
-  margin-left: 20px;
-}
+  background-color: $text-secondary;
+  color: $white;
 
-.layout main {
-  padding: 16px 32px 48px 32px;
+  &:hover {
+    background-color: $text-primary;
+  }
 }

@@ -1,0 +1,26 @@
+@mixin flexContainer(
+  $direction: 'row',
+  $align-items: 'center',
+  $justify-content: 'center',
+  $align-self: 'stretch'
+) {
+  align-self: $align-self;
+  align-items: $align-items;
+  display: flex;
+  justify-content: $justify-content;
+  flex-direction: $direction;
+}
+
+@mixin buttonPrimer {
+  border: none;
+  border-radius: $border-radius;
+  background-color: $primary;
+  color: $white;
+  cursor: pointer;
+  height: $field-height;
+  padding: 0 16px;
+
+  &:hover {
+    background-color: $primary-hover;
+  }
+}
